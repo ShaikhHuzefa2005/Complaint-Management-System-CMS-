@@ -1,0 +1,61 @@
+<%- include('../partials/head') %>
+
+<body class="bg-[var(--white)] text-[var(--highlight)]">
+<div class="min-h-screen flex">
+
+  <%- include('../partials/sidebar-staff') %>
+
+  <main class="flex-1 p-8 md:p-10 space-y-8 overflow-auto">
+    <header>
+      <h1 class="text-3xl font-semibold text-[var(--highlight-light)]">Assigned Complaints</h1>
+      <p class="mt-1 text-sm text-gray-500">Complaints assigned to you for action</p>
+    </header>
+
+    <%- include('../partials/flash') %>
+
+    <section class="bg-white rounded-2xl border overflow-x-auto max-w-5xl">
+      <table class="w-full text-left min-w-[600px]">
+        <thead class="bg-gray-50 text-sm text-gray-600">
+          <tr>
+            <th class="px-6 py-4">ID</th>
+            <th class="px-6 py-4">Title</th>
+            <th class="px-6 py-4">Student</th>
+            <th class="px-6 py-4">Category</th>
+            <th class="px-6 py-4">Status</th>
+            <th class="px-6 py-4">Action</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y">
+          <% if (complaints.length === 0) { %>
+          <tr>
+            <td colspan="6" class="px-6 py-12 text-center text-gray-400">No complaints assigned to you yet.</td>
+          </tr>
+          <% } else { %>
+          <% complaints.forEach(c => { %>
+          <tr class="hover:bg-gray-50 transition">
+            <td class="px-6 py-4 text-sm text-gray-500">#CMS<%= c.id %></td>
+            <td class="px-6 py-4 font-medium"><%= c.title %></td>
+            <td class="px-6 py-4 text-sm"><%= c.student_name %></td>
+            <td class="px-6 py-4 text-sm"><%= c.category %></td>
+            <td class="px-6 py-4">
+              <% if (c.status === 'open') { %>
+                <span class="px-3 py-1 rounded-full text-xs bg-red-100 text-red-600">Open</span>
+              <% } else if (c.status === 'in_progress') { %>
+                <span class="px-3 py-1 rounded-full text-xs bg-yellow-100 text-yellow-700">In Progress</span>
+              <% } else { %>
+                <span class="px-3 py-1 rounded-full text-xs bg-green-100 text-green-700">Resolved</span>
+              <% } %>
+            </td>
+            <td class="px-6 py-4">
+              <a href="/staff/complaints/<%= c.id %>" class="btn-type-1 text-sm">View</a>
+            </td>
+          </tr>
+          <% }) %>
+          <% } %>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</div>
+</body>
+</html>

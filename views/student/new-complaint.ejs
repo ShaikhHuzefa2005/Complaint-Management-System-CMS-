@@ -1,0 +1,54 @@
+<%- include('../partials/head') %>
+
+<body class="bg-[var(--white)] text-[var(--highlight)]">
+<div class="min-h-screen flex">
+
+  <%- include('../partials/sidebar-student') %>
+
+  <main class="flex-1 p-8 md:p-10 overflow-auto">
+    <header class="mb-8">
+      <h1 class="text-3xl font-semibold text-[var(--highlight-light)]">New Complaint</h1>
+      <p class="mt-1 text-sm text-gray-500">Submit a new complaint for review and resolution</p>
+    </header>
+
+    <%- include('../partials/flash') %>
+
+    <section class="max-w-3xl bg-white rounded-2xl border p-8">
+      <form action="/student/new-complaint" method="POST" class="space-y-6">
+
+        <div>
+          <label class="block text-sm font-medium mb-2 text-[var(--highlight-light)]">Complaint Title</label>
+          <input type="text" name="title" placeholder="Brief summary of the issue"
+            class="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--highlight-light)]" required />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-2 text-[var(--highlight-light)]">Category</label>
+          <select name="category" class="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--highlight-light)]" required>
+            <option value="">Select category</option>
+            <option>Maintenance</option>
+            <option>IT Support</option>
+            <option>Administration</option>
+            <option>Hostel</option>
+            <option>Academic</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-2 text-[var(--highlight-light)]">Description</label>
+          <textarea name="description" rows="5" placeholder="Describe the issue in detail (minimum 20 characters)"
+            class="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--highlight-light)]" required></textarea>
+        </div>
+
+        <div class="flex gap-4 pt-4">
+          <button type="submit" class="btn-type-2">Submit Complaint</button>
+          <a href="/student/complaints" class="btn-type-1">Cancel</a>
+        </div>
+
+      </form>
+    </section>
+  </main>
+</div>
+</body>
+</html>

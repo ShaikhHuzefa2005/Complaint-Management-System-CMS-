@@ -1,0 +1,93 @@
+<%- include('../partials/head') %>
+
+<body class="bg-[var(--white)] text-[var(--highlight)]">
+<div class="min-h-screen flex">
+
+  <%- include('../partials/sidebar-staff') %>
+
+  <main class="flex-1 p-8 md:p-10 space-y-10 overflow-auto">
+    <header>
+      <h1 class="text-3xl font-semibold text-[var(--highlight-light)]">Staff Dashboard</h1>
+      <p class="mt-1 text-sm text-gray-500">Welcome, <strong><%= user.name %></strong> — Manage and resolve assigned complaints</p>
+    </header>
+
+    <%- include('../partials/flash') %>
+
+    <!-- STATS -->
+    <section class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="group bg-white p-6 rounded-xl border hover:bg-[var(--highlight-light)] hover:text-white transition">
+        <p class="text-sm text-gray-500 group-hover:text-white">Assigned</p>
+        <p class="mt-2 text-2xl font-semibold"><%= stats.assigned || 0 %></p>
+      </div>
+      <div class="group bg-white p-6 rounded-xl border hover:bg-[var(--highlight-light)] hover:text-white transition">
+        <p class="text-sm text-gray-500 group-hover:text-white">Open</p>
+        <p class="mt-2 text-2xl font-semibold"><%= stats.open || 0 %></p>
+      </div>
+      <div class="group bg-white p-6 rounded-xl border hover:bg-[var(--highlight-light)] hover:text-white transition">
+        <p class="text-sm text-gray-500 group-hover:text-white">In Progress</p>
+        <p class="mt-2 text-2xl font-semibold"><%= stats.in_progress || 0 %></p>
+      </div>
+      <div class="group bg-white p-6 rounded-xl border hover:bg-[var(--highlight-light)] hover:text-white transition">
+        <p class="text-sm text-gray-500 group-hover:text-white">Resolved</p>
+        <p class="mt-2 text-2xl font-semibold"><%= stats.resolved || 0 %></p>
+      </div>
+    </section>
+
+    <!-- COMPLAINTS + CHART -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+      <div class="lg:col-span-7 bg-white rounded-2xl border p-6">
+        <h3 class="text-lg font-semibold mb-6">Assigned Complaints</h3>
+        <div class="space-y-4">
+          <% if (recent.length === 0) { %>
+            <p class="text-center text-gray-400 py-8">No complaints assigned yet.</p>
+          <% } else { %>
+            <% recent.forEach(c => { %>
+            <div class="flex justify-between items-center border rounded-lg p-4">
+              <div>
+                <p class="font-medium"><%= c.title %></p>
+                <p class="text-sm text-gray-500">
+                  <%= c.student_name %> • <%= c.category %> •
+                  <span class="<%= c.status === 'open' ? 'text-red-600' : c.status === 'in_progress' ? 'text-yellow-600' : 'text-green-600' %>">
+                    <%= c.status === 'in_progress' ? 'In Progress' : c.status.charAt(0).toUpperCase() + c.status.slice(1) %>
+                  </span>
+                </p>
+              </div>
+              <a href="/staff/complaints/<%= c.id %>" class="btn-type-1 text-sm">View</a>
+            </div>
+            <% }) %>
+          <% } %>
+        </div>
+        <% if (recent.length > 0) { %>
+        <div class="mt-4">
+          <a href="/staff/complaints" class="text-sm text-[var(--highlight-light)] hover:underline">View all →</a>
+        </div>
+        <% } %>
+      </div>
+
+      <div class="lg:col-span-5 bg-white rounded-2xl border p-6 cursor-pointer hover:shadow-md transition" onclick="window.location.href='/staff/complaints'">
+        <h3 class="text-lg font-semibold mb-2">Complaint Status</h3>
+        <p class="text-sm text-gray-500 mb-6">Click to view all assigned complaints</p>
+        <div id="staffChart" class="w-full h-[260px]"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+const chartData = <%- JSON.stringify(chartData) %>;
+google.charts.load('current', { packages: ['corechart'] });
+google.charts.setOnLoadCallback(() => {
+  const data = new google.visualization.DataTable();
+  data.addColumn('string', 'Status');
+  data.addColumn('number', 'Count');
+  if (chartData.length === 0) { data.addRows([['No data', 1]]); }
+  else { chartData.forEach(r => data.addRow([r.status === 'in_progress' ? 'In Progress' : r.status.charAt(0).toUpperCase() + r.status.slice(1), parseInt(r.count)])); }
+  new google.visualization.PieChart(document.getElementById('staffChart')).draw(data, {
+    colors: ['#BC6C25','#DDA15E','#606C38'], pieHole: 0.4,
+    legend: { position: 'bottom' }, chartArea: { width: '90%', height: '85%' },
+    backgroundColor: 'transparent'
+  });
+});
+</script>
+</body>
+</html>

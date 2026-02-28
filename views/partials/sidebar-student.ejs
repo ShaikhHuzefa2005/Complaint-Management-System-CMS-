@@ -1,0 +1,45 @@
+<aside class="w-[260px] bg-[var(--hover-color)] m-5 rounded-xl border flex flex-col px-6 py-8 shrink-0">
+  <div class="text-4xl font-semibold mb-10 text-[var(--white)]">CMS</div>
+
+  <n class="flex flex-col gap-2">
+    <a href="/student/dashboard"
+       class="flex items-center gap-4 px-4 py-3 rounded-lg <%= active === 'dashboard' ? 'bg-[var(--highlight-light)] text-[var(--white)] font-medium' : 'text-[var(--white)] hover:bg-[var(--hover-color-dark)]' %>">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+        <rect x="3" y="3" width="6" height="6" rx="1"/><rect x="11" y="3" width="6" height="6" rx="1"/>
+        <rect x="3" y="11" width="6" height="6" rx="1"/><rect x="11" y="11" width="6" height="6" rx="1"/>
+      </svg>
+      Dashboard
+    </a>
+    <a href="/student/complaints"
+       class="flex items-center gap-4 px-4 py-3 rounded-lg <%= active === 'complaints' ? 'bg-[var(--highlight-light)] text-[var(--white)] font-medium' : 'text-[var(--white)] hover:bg-[var(--hover-color-dark)]' %>">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M4 4h12v12H4z"/><path d="M7 8h6M7 12h6"/>
+      </svg>
+      My Complaints
+    </a>
+    <a href="/student/new-complaint"
+       class="flex items-center gap-4 px-4 py-3 rounded-lg <%= active === 'new-complaint' ? 'bg-[var(--highlight-light)] text-[var(--white)] font-medium' : 'text-[var(--white)] hover:bg-[var(--hover-color-dark)]' %>">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M10 4v12M4 10h12"/>
+      </svg>
+      New Complaint
+    </a>
+    <a href="/student/profile"
+       class="flex items-center gap-4 px-4 py-3 rounded-lg <%= active === 'profile' ? 'bg-[var(--highlight-light)] text-[var(--white)] font-medium' : 'text-[var(--white)] hover:bg-[var(--hover-color-dark)]' %>">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+        <circle cx="10" cy="7" r="3"/><path d="M3 18c0-3.3 3.1-6 7-6s7 2.7 7 6"/>
+      </svg>
+      Profile
+    </a>
+  </n>
+
+  <div class="mt-auto pt-6 border-t border-[var(--white)]/20">
+    <a href="/logout" class="flex items-center gap-4 px-4 py-3 rounded-lg bg-[var(--highlight-light)] w-full text-[var(--white)] hover:bg-[var(--highlight)]">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4"/>
+        <path d="M16 17l5-5-5-5"/><path d="M21 12H9"/>
+      </svg>
+      Logout
+    </a>
+  </div>
+</aside>

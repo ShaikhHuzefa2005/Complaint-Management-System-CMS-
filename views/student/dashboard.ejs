@@ -1,0 +1,107 @@
+<%- include('../partials/head') %>
+
+<body class="bg-[var(--white)] text-[var(--highlight)]">
+<div class="min-h-screen flex">
+
+  <%- include('../partials/sidebar-student') %>
+
+  <main class="flex-1 p-8 md:p-10 space-y-10 overflow-auto">
+    <header>
+      <h1 class="text-3xl font-semibold text-[var(--highlight-light)]">Student Dashboard</h1>
+      <p class="mt-1 text-sm text-gray-500">Welcome back, <strong><%= user.name %></strong> — Overview of your complaint activity</p>
+    </header>
+
+    <%- include('../partials/flash') %>
+
+    <!-- STATS -->
+    <section class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="group bg-white p-6 rounded-xl border hover:bg-[var(--highlight-light)] hover:text-white transition">
+        <p class="text-sm text-gray-500 group-hover:text-white">Total Complaints</p>
+        <p class="mt-2 text-2xl font-semibold"><%= stats.total || 0 %></p>
+      </div>
+      <div class="group bg-white p-6 rounded-xl border hover:bg-[var(--highlight-light)] hover:text-white transition">
+        <p class="text-sm text-gray-500 group-hover:text-white">Open</p>
+        <p class="mt-2 text-2xl font-semibold"><%= stats.open || 0 %></p>
+      </div>
+      <div class="group bg-white p-6 rounded-xl border hover:bg-[var(--highlight-light)] hover:text-white transition">
+        <p class="text-sm text-gray-500 group-hover:text-white">In Progress</p>
+        <p class="mt-2 text-2xl font-semibold"><%= stats.in_progress || 0 %></p>
+      </div>
+      <div class="group bg-white p-6 rounded-xl border hover:bg-[var(--highlight-light)] hover:text-white transition">
+        <p class="text-sm text-gray-500 group-hover:text-white">Resolved</p>
+        <p class="mt-2 text-2xl font-semibold"><%= stats.resolved || 0 %></p>
+      </div>
+    </section>
+
+    <!-- CONTENT -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+
+      <!-- RECENT COMPLAINTS -->
+      <div class="lg:col-span-7 bg-white rounded-2xl border p-6">
+        <h3 class="text-lg font-semibold mb-6">Recent Complaints</h3>
+        <div class="space-y-4">
+          <% if (recent.length === 0) { %>
+            <div class="text-center py-10 text-gray-400">
+              <p>No complaints yet.</p>
+              <a href="/student/new-complaint" class="btn-type-2 inline-block mt-4 text-sm">Submit First Complaint</a>
+            </div>
+          <% } else { %>
+            <% recent.forEach(c => { %>
+            <div class="flex justify-between items-center border rounded-lg p-4">
+              <div>
+                <p class="font-medium"><%= c.title %></p>
+                <p class="text-sm text-gray-500">
+                  <%= c.category %> •
+                  <span class="<%= c.status === 'open' ? 'text-red-600' : c.status === 'in_progress' ? 'text-yellow-600' : 'text-green-600' %>">
+                    <%= c.status === 'in_progress' ? 'In Progress' : c.status.charAt(0).toUpperCase() + c.status.slice(1) %>
+                  </span>
+                </p>
+              </div>
+              <a href="/student/complaints/<%= c.id %>" class="btn-type-1 text-sm">View</a>
+            </div>
+            <% }) %>
+          <% } %>
+        </div>
+        <% if (recent.length > 0) { %>
+        <div class="mt-4">
+          <a href="/student/complaints" class="text-sm text-[var(--highlight-light)] hover:underline">View all complaints →</a>
+        </div>
+        <% } %>
+      </div>
+
+      <!-- CHART -->
+      <div class="lg:col-span-5 bg-white rounded-2xl border p-6">
+        <h3 class="text-lg font-semibold mb-2">Complaint Activity</h3>
+        <p class="text-sm text-gray-500 mb-6">Last 7 days</p>
+        <div id="studentChart" class="w-full h-[260px]"></div>
+      </div>
+
+    </section>
+  </main>
+</div>
+
+<script>
+const chartData = <%- JSON.stringify(chartData) %>;
+google.charts.load('current', { packages: ['corechart'] });
+google.charts.setOnLoadCallback(drawChart);
+function drawChart() {
+  const data = new google.visualization.DataTable();
+  data.addColumn('string', 'Day');
+  data.addColumn('number', 'Complaints');
+  if (chartData.length === 0) {
+    data.addRows([['No data', 0]]);
+  } else {
+    chartData.forEach(r => data.addRow([r.day ? r.day.toString().slice(5) : 'N/A', parseInt(r.count)]));
+  }
+  const options = {
+    chartArea: { left: 40, top: 10, width: '90%', height: '85%' },
+    colors: ['#606C38'], legend: 'none',
+    hAxis: { textStyle: { color: '#555', fontSize: 11 } },
+    vAxis: { minValue: 0, format: '0', textStyle: { color: '#555', fontSize: 11 } },
+    backgroundColor: 'transparent', bar: { groupWidth: '60%' }
+  };
+  new google.visualization.ColumnChart(document.getElementById('studentChart')).draw(data, options);
+}
+</script>
+</body>
+</html>

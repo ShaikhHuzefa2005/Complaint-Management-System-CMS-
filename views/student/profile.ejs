@@ -1,0 +1,58 @@
+<%- include('../partials/head') %>
+
+<body class="bg-[var(--white)] text-[var(--highlight)]">
+<div class="min-h-screen flex">
+
+  <%- include('../partials/sidebar-student') %>
+
+  <main class="flex-1 p-8 md:p-10 space-y-10 overflow-auto">
+    <header>
+      <h1 class="text-3xl font-semibold text-[var(--highlight-light)]">Profile</h1>
+      <p class="mt-1 text-sm text-gray-500">Your account details</p>
+    </header>
+
+    <%- include('../partials/flash') %>
+
+    <section class="max-w-2xl bg-white rounded-2xl border p-8">
+      <div class="flex items-center gap-5 mb-8">
+        <div class="w-16 h-16 rounded-full bg-[var(--hover-color)] flex items-center justify-center text-white text-2xl font-semibold">
+          <%= profile.name.charAt(0).toUpperCase() %>
+        </div>
+        <div>
+          <h2 class="text-lg font-semibold text-[var(--highlight-light)]"><%= profile.name %></h2>
+          <p class="text-sm text-gray-500 capitalize"><%= profile.role %></p>
+        </div>
+      </div>
+
+      <div class="space-y-6 text-sm">
+        <div><p class="text-gray-500">Full Name</p><p class="font-medium mt-1"><%= profile.name %></p></div>
+        <div><p class="text-gray-500">Email</p><p class="font-medium mt-1"><%= profile.email %></p></div>
+        <div><p class="text-gray-500">Role</p><p class="font-medium mt-1 capitalize"><%= profile.role %></p></div>
+        <div><p class="text-gray-500">Member Since</p><p class="font-medium mt-1"><%= new Date(profile.created_at).toLocaleDateString() %></p></div>
+        <div><p class="text-gray-500">Account Status</p><p class="font-medium mt-1 text-green-600">Active</p></div>
+      </div>
+    </section>
+
+    <!-- CHANGE PASSWORD -->
+    <section class="max-w-2xl bg-white rounded-2xl border p-8">
+      <h3 class="font-semibold mb-6">Change Password</h3>
+      <form action="/student/profile/change-password" method="POST" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium mb-2">Current Password</label>
+          <input type="password" name="currentPassword" class="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--highlight-light)]" required />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-2">New Password</label>
+          <input type="password" name="newPassword" class="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--highlight-light)]" required />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-2">Confirm New Password</label>
+          <input type="password" name="confirmNew" class="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--highlight-light)]" required />
+        </div>
+        <button type="submit" class="btn-type-2">Update Password</button>
+      </form>
+    </section>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<%- include('partials/head') %>
+
+<header id="mainHeader">
+  <nav>
+    <div class="left-heading">CMS</div>
+    <div class="middle-links">
+      <a href="#hero">Home</a>
+      <a href="#apart">Features</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#dashboard">Dashboard</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="right-cta">
+      <% if (user) { %>
+        <% if (user.role === 'admin') { %>
+          <button class="btn-type-1" onclick="window.location.href='/admin/dashboard'">Dashboard</button>
+        <% } else if (user.role === 'staff') { %>
+          <button class="btn-type-1" onclick="window.location.href='/staff/dashboard'">Dashboard</button>
+        <% } else { %>
+          <button class="btn-type-1" onclick="window.location.href='/student/dashboard'">Dashboard</button>
+        <% } %>
+        <button class="btn-type-2" onclick="window.location.href='/logout'">Logout</button>
+      <% } else { %>
+        <button class="btn-type-1" onclick="window.location.href='/login'">Login</button>
+        <button class="btn-type-2" onclick="window.location.href='/register'">Register</button>
+      <% } %>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero bg-[#FCFBFC]" id="hero">
+    <div class="hero-data">
+      <div class="left">
+        <h1 class="hero-title heading" id="heroTitle">
+          Efficient Complaint
+          <span class="gradient-text">Management System</span>
+        </h1>
+        <p class="desc">
+          Streamline, track, and resolve complaints with ease using a modern,
+          centralized platform.
+        </p>
+        <div class="cta-hero">
+          <button class="btn-type-2" onclick="window.location.href='/register'">Get Started</button>
+          <button class="btn-type-1" onclick="document.getElementById('how-it-works').scrollIntoView({behavior:'smooth'})">How It Works</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT SETS US APART -->
+  <section id="apart" class="relative bg-[#FCFBFC]">
+    <div id="apart-pin" class="relative h-screen overflow-hidden">
+      <div class="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
+        <div class="text-center max-w-md">
+          <h2 class="text-[clamp(5rem,5vw,6rem)] font-semibold text-[var(--highlight)]">
+            What sets <p class="uppercase text-[#606c38]">us</p> apart
+          </h2>
+          <p class="mt-4 text-lg text-[#555]">
+            Built as a system, not scattered features.
+          </p>
+        </div>
+      </div>
+
+      <!-- LEFT COLUMN -->
+      <div class="absolute left-10 top-1/2 -translate-y-1/2 z-20 space-y-16">
+        <div class="card c1 w-[400px] opacity-0">
+          <div class="relative rounded-2xl overflow-hidden">
+            <img src="/assets/intelligent-automation.png" class="w-full h-[250px] object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4 text-white">
+              <h3 class="text-sm font-semibold">Intelligent Automation</h3>
+              <p class="text-xs opacity-90 mt-1">Smart routing removes delays.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card c3 w-[400px] opacity-0">
+          <div class="relative rounded-2xl overflow-hidden">
+            <img src="/assets/contextual-communication.png" class="w-full h-[250px] object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4 text-white">
+              <h3 class="text-sm font-semibold">Contextual Communication</h3>
+              <p class="text-xs opacity-90 mt-1">Conversations stay in context.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="absolute right-10 top-1/2 -translate-y-1/2 z-20 space-y-16">
+        <div class="card c2 w-[400px] opacity-0">
+          <div class="relative rounded-2xl overflow-hidden">
+            <img src="/assets/real-time-visibility.png" class="w-full h-[250px] object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4 text-white">
+              <h3 class="text-sm font-semibold">Real-Time Visibility</h3>
+              <p class="text-xs opacity-90 mt-1">Live status, no guessing.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card c4 w-[400px] opacity-0">
+          <div class="relative rounded-2xl overflow-hidden">
+            <img src="/assets/actionable-insights.png" class="w-full h-[250px] object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4 text-white">
+              <h3 class="text-sm font-semibold">Actionable Insights</h3>
+              <p class="text-xs opacity-90 mt-1">Data-driven decisions.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how-it-works" class="py-24 bg-[#FCFBFC]">
+    <div class="max-w-6xl mx-auto px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-5xl font-semibold text-[var(--highlight)]">How It <span class="gradient-text">Works</span></h2>
+        <p class="mt-4 text-lg text-gray-500">Three simple steps to resolution</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white rounded-2xl border p-8 text-center">
+          <div class="w-14 h-14 bg-[var(--highlight)] text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">1</div>
+          <h3 class="text-xl font-semibold mb-3">Submit</h3>
+          <p class="text-gray-500">Students register and submit complaints with full context and category.</p>
+        </div>
+        <div class="bg-white rounded-2xl border p-8 text-center">
+          <div class="w-14 h-14 bg-[var(--hover-color)] text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">2</div>
+          <h3 class="text-xl font-semibold mb-3">Assign</h3>
+          <p class="text-gray-500">Admin reviews and assigns complaints to appropriate staff members.</p>
+        </div>
+        <div class="bg-white rounded-2xl border p-8 text-center">
+          <div class="w-14 h-14 bg-[var(--highlight-light)] text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">3</div>
+          <h3 class="text-xl font-semibold mb-3">Resolve</h3>
+          <p class="text-gray-500">Staff updates status with notes. Students get real-time visibility.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES (with images) -->
+  <section id="features" class="py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-8">
+      <h2 class="text-5xl font-semibold text-center text-[var(--highlight)] mb-16">Key <span class="gradient-text">Features</span></h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <% const features = [
+          { img: 'submit-a-request.png', title: 'Submit a Request', desc: 'Easy form-based complaint submission with category selection.' },
+          { img: 'smart-ass-track.png', title: 'Smart Assignment', desc: 'Admin assigns complaints to relevant staff automatically.' },
+          { img: 'feedback.png', title: 'Comments & Feedback', desc: 'Threaded comments keep all parties informed.' },
+          { img: 'communication.png', title: 'Live Status Tracking', desc: 'Students see real-time updates on their complaints.' },
+          { img: 'actionable-insights.png', title: 'Dashboard Analytics', desc: 'Visual charts and statistics for informed decisions.' },
+          { img: 'real-time-visibility.png', title: 'Role-Based Access', desc: 'Student, Staff and Admin each have tailored interfaces.' }
+        ] %>
+        <% features.forEach(f => { %>
+        <div class="group bg-[#FCFBFC] rounded-2xl border overflow-hidden hover:shadow-lg transition">
+          <img src="/assets/<%= f.img %>" class="w-full h-48 object-cover" alt="<%= f.title %>" />
+          <div class="p-6">
+            <h3 class="font-semibold text-lg mb-2"><%= f.title %></h3>
+            <p class="text-sm text-gray-500"><%= f.desc %></p>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+
+  <!-- DASHBOARD PREVIEW -->
+  <section id="dashboard" class="py-24 bg-[#FCFBFC]">
+    <div class="max-w-6xl mx-auto px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-5xl font-semibold text-[var(--highlight)]">Powerful <span class="gradient-text">Dashboards</span></h2>
+        <p class="mt-4 text-lg text-gray-500">Every role gets exactly what they need</p>
+      </div>
+      <div class="rounded-2xl overflow-hidden border shadow-xl">
+        <img src="/assets/dashboard-main.png" class="w-full h-[600px] object-cover" alt="Dashboard Preview" />
+      </div>
+      <div class="mt-10 flex justify-center gap-4">
+        <button class="btn-type-2" onclick="window.location.href='/register'">Get Started Free</button>
+        <button class="btn-type-1" onclick="window.location.href='/login'">Login</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ / CONTACT -->
+  <section id="contact" class="py-24 bg-[var(--highlight)] text-white">
+    <div class="max-w-4xl mx-auto px-8">
+      <h2 class="text-4xl font-semibold text-center mb-12">Frequently Asked <span class="gradient-text">Questions</span></h2>
+      <div class="space-y-4">
+        <% const faqs = [
+          { q: 'Who can use this system?', a: 'Students, Staff members, and Admins each have dedicated accounts and dashboards.' },
+          { q: 'Can students track complaint progress?', a: 'Yes. Students can view real-time status updates and comments on every complaint they submit.' },
+          { q: 'How does complaint assignment work?', a: 'Admin reviews incoming complaints and assigns them to appropriate staff members through the admin panel.' },
+          { q: 'Is the system secure?', a: 'Yes. Passwords are bcrypt-hashed, sessions are managed server-side, and all routes have role-based middleware protection.' }
+        ] %>
+        <% faqs.forEach((faq, i) => { %>
+        <div class="faq-card" id="faq-<%= i %>">
+          <button class="faq-btn" onclick="toggleFaq(<%= i %>)">
+            <span><%= faq.q %></span>
+            <span class="faq-icon text-xl">+</span>
+          </button>
+          <div class="faq-answer"><%= faq.a %></div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[var(--highlight)] border-t border-white/10 py-8">
+    <div class="max-w-6xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+      <p class="text-white/60 text-sm">© 2026 CMS – Complaint Management System. All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="/login" class="text-white/60 hover:text-white text-sm">Login</a>
+        <a href="/register" class="text-white/60 hover:text-white text-sm">Register</a>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<script>
+
+
+// Card animations
+function animateCards() {
+  const cards = document.querySelectorAll('.card');
+  cards.forEach((card, i) => {
+    setTimeout(() => {
+      card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+    }, i * 150);
+  });
+}
+
+// Intersection observer for cards
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { animateCards(); observer.disconnect(); } });
+}, { threshold: 0.2 });
+const apart = document.getElementById('apart');
+if (apart) observer.observe(apart);
+
+// Initialize cards
+document.querySelectorAll('.card').forEach(c => { c.style.transform = 'translateY(30px)'; });
+
+// FAQ Toggle
+function toggleFaq(i) {
+  const card = document.getElementById('faq-' + i);
+  card.classList.toggle('active');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<%- include('partials/head') %>
+
+<body class="bg-[var(--white)] min-h-screen flex items-center justify-center">
+
+<div class="w-full max-w-md bg-white rounded-2xl shadow-[0_30px_80px_rgba(0,0,0,0.15)] p-10 mx-4">
+  <div class="text-center mb-8">
+    <h1 class="text-4xl font-semibold text-[var(--highlight)]">CMS</h1>
+    <p class="mt-2 text-gray-500">Centralized Complaint Management System</p>
+  </div>
+
+  <%- include('partials/flash') %>
+
+  <form action="/login" method="POST" class="space-y-6">
+    <div>
+      <label class="block text-sm font-medium mb-2">Login as</label>
+      <select name="role" class="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--highlight-light)]" required>
+        <option value="">Select role</option>
+        <option value="student">Student</option>
+        <option value="staff">Staff</option>
+        <option value="admin">Admin</option>
+      </select>
+    </div>
+    <div>
+      <label class="block text-sm font-medium mb-2">Email</label>
+      <input type="email" name="email" placeholder="you@example.com"
+        class="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--highlight-light)]" required />
+    </div>
+    <div>
+      <label class="block text-sm font-medium mb-2">Password</label>
+      <input type="password" name="password" placeholder="••••••••"
+        class="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--highlight-light)]" required />
+    </div>
+    <div class="flex items-center justify-between text-sm">
+      <label class="flex items-center gap-2">
+        <input type="checkbox" class="accent-[var(--highlight)]"> Remember me
+      </label>
+    </div>
+    <button type="submit" class="btn-type-2 w-full py-3">Login</button>
+  </form>
+
+  <p class="text-center text-sm text-gray-500 mt-8">
+    Don't have an account?
+    <a href="/register" class="text-[var(--highlight-light)] font-medium hover:underline">Register</a>
+  </p>
+  <p class="text-center text-sm text-gray-500 mt-2">
+    <a href="/" class="text-[var(--highlight-light)] hover:underline">← Back to Home</a>
+  </p>
+</div>
+
+</body>
+</html>

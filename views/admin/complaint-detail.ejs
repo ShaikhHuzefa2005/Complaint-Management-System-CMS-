@@ -1,0 +1,118 @@
+<%- include('../partials/head') %>
+
+<body class="bg-[var(--white)] text-[var(--highlight)]">
+<div class="min-h-screen flex">
+
+  <%- include('../partials/sidebar-admin') %>
+
+  <main class="flex-1 p-8 md:p-10 space-y-8 overflow-auto">
+    <header class="flex items-center gap-4">
+      <a href="/admin/complaints" class="text-gray-400 hover:text-[var(--highlight)]">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      </a>
+      <div>
+        <h1 class="text-3xl font-semibold text-[var(--highlight-light)]"><%= complaint.title %></h1>
+        <p class="mt-1 text-sm text-gray-500">#CMS<%= complaint.id %> • Raised by <%= complaint.student_name %></p>
+      </div>
+    </header>
+
+    <%- include('../partials/flash') %>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- MANAGE FORM -->
+      <div class="lg:col-span-2 space-y-6">
+        <div class="bg-white rounded-2xl border p-6">
+          <h3 class="font-semibold mb-6">Manage Complaint</h3>
+          <form action="/admin/complaints/<%= complaint.id %>/manage" method="POST" class="space-y-4">
+            <div>
+              <p class="text-sm text-gray-500 mb-1">Raised By</p>
+              <p class="font-medium"><%= complaint.student_name %> (<%= complaint.student_email %>)</p>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500 mb-1">Category</p>
+              <p class="font-medium"><%= complaint.category %></p>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500 mb-1">Description</p>
+              <p class="text-sm leading-relaxed"><%= complaint.description %></p>
+            </div>
+            <hr>
+            <div>
+              <label class="block text-sm font-medium mb-2">Assign Staff</label>
+              <select name="assigned_staff_id" class="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--highlight-light)]">
+                <option value="">Unassigned</option>
+                <% staffList.forEach(s => { %>
+                <option value="<%= s.id %>" <%= complaint.assigned_staff_id == s.id ? 'selected' : '' %>><%= s.name %></option>
+                <% }) %>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Update Status</label>
+              <select name="status" class="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--highlight-light)]" required>
+                <option value="open" <%= complaint.status === 'open' ? 'selected' : '' %>>Open</option>
+                <option value="in_progress" <%= complaint.status === 'in_progress' ? 'selected' : '' %>>In Progress</option>
+                <option value="resolved" <%= complaint.status === 'resolved' ? 'selected' : '' %>>Resolved</option>
+              </select>
+            </div>
+            <div class="flex gap-3 pt-2">
+              <button type="submit" class="btn-type-2">Save Changes</button>
+              <a href="/admin/complaints" class="btn-type-1">Close</a>
+            </div>
+          </form>
+        </div>
+
+        <!-- ADMIN COMMENT -->
+        <div class="bg-white rounded-2xl border p-6">
+          <h3 class="font-semibold mb-4">Add Admin Note</h3>
+          <form action="/admin/complaints/<%= complaint.id %>/comment" method="POST" class="space-y-4">
+            <textarea name="message" rows="3" placeholder="Add a note or comment..."
+              class="w-full border rounded-md px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--highlight-light)]" required></textarea>
+            <button type="submit" class="btn-type-2 text-sm">Post Note</button>
+          </form>
+        </div>
+
+        <!-- COMMENTS -->
+        <div class="bg-white rounded-2xl border p-6">
+          <h3 class="font-semibold mb-6">Comments</h3>
+          <div class="space-y-4">
+            <% if (comments.length === 0) { %><p class="text-sm text-gray-400">No comments.</p><% } %>
+            <% comments.forEach(cm => { %>
+            <div class="flex gap-3">
+              <div class="w-8 h-8 rounded-full bg-[var(--hover-color)] flex items-center justify-center text-white text-xs font-medium shrink-0">
+                <%= cm.name.charAt(0).toUpperCase() %>
+              </div>
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="text-sm font-medium"><%= cm.name %></span>
+                  <span class="text-xs text-gray-400 capitalize px-2 py-0.5 bg-gray-100 rounded-full"><%= cm.role %></span>
+                  <span class="text-xs text-gray-400"><%= new Date(cm.created_at).toLocaleString() %></span>
+                </div>
+                <p class="text-sm text-gray-700"><%= cm.message %></p>
+              </div>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+
+      <!-- SIDEBAR: ACTIVITY LOG -->
+      <div class="space-y-4">
+        <div class="bg-white rounded-2xl border p-6">
+          <h4 class="font-semibold mb-4 text-sm">Activity Log</h4>
+          <div class="space-y-3">
+            <% if (logs.length === 0) { %><p class="text-xs text-gray-400">No activity yet.</p><% } %>
+            <% logs.forEach(log => { %>
+            <div class="text-xs">
+              <p class="font-medium text-gray-700"><%= log.action %></p>
+              <p class="text-gray-400"><%= log.name || 'System' %> • <%= new Date(log.timestamp).toLocaleString() %></p>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>
