@@ -126,15 +126,6 @@ Visit: **http://localhost:3000**
 
 ## 👥 DEFAULT ACCOUNTS
 
-The `database.sql` seeds one admin account:
-```
-Email:    admin@cms.com
-Password: password      ← CHANGE THIS IMMEDIATELY
-Role:     Admin
-```
-
-> **Note:** The seeded password hash in database.sql is for `password`. After first login, change it via the Profile → Change Password section or re-hash using bcrypt.
-
 To create test accounts, use the Register page with roles: Student, Staff, or Admin.
 
 ---
